@@ -1,0 +1,4 @@
+[armeabi-v7a] Compile++ thumb: KittyMemory <= main.cpp
+[armeabi-v7a] Compile++ thumb: KittyMemory <= KittyMemory.cpp
+[armeabi-v7a] Compile++ thumb: KittyMemory <= MemoryPatch.cpp
+[armeabi-v7a] SharedLibrary  : libKittyMemory.so

@@ -1,0 +1,4 @@
+[x86] Compile++      : KittyMemory <= main.cpp
+[x86] Compile++      : KittyMemory <= KittyMemory.cpp
+[x86] Compile++      : KittyMemory <= MemoryPatch.cpp
+[x86] SharedLibrary  : libKittyMemory.so
