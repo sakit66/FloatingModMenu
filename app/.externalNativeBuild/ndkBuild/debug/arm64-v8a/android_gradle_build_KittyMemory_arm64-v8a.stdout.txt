@@ -1,4 +1,0 @@
-[arm64-v8a] Compile++      : KittyMemory <= main.cpp
-[arm64-v8a] Compile++      : KittyMemory <= KittyMemory.cpp
-[arm64-v8a] Compile++      : KittyMemory <= MemoryPatch.cpp
-[arm64-v8a] SharedLibrary  : libKittyMemory.so

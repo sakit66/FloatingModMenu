@@ -40,12 +40,12 @@ public class FloatingModMenuService extends Service {
     private RelativeLayout mRootContainer, mCollapsed;
     private LinearLayout patches, mExpandet, settings, mButtonPanel, mTitlle, settingsTitle;
     private ImageView startimage, closeimage, closeimage_title, closeimage_settings, mSettinsMenu, openSite;
-    private SeekBar seek_icon, seek_alfa, seek_red, seek_green, seek_blue;
+    private SeekBar seek_icon, seek_alpha, seek_red, seek_green, seek_blue;
     private WindowManager.LayoutParams params;
     private float curent_icon;
     private SharedPreferences.Editor editor;
-    private int mProgress_icon, background_color, alfa, red, green, blue;
-    private TextView alfa_text, red_text, green_text, blue_text, current_opacity_icon;
+    private int mProgress_icon, background_color, alpha, red, green, blue;
+    private TextView alpha_text, red_text, green_text, blue_text, current_opacity_icon;
     //private Spinner spinner;
 
     //инициализируем методы из нативной библиотеки
@@ -168,7 +168,7 @@ public class FloatingModMenuService extends Service {
         mExpandet.setVisibility(View.GONE);//mExpandet скрытый
         mExpandet.setBackgroundColor(background_color);
         //mExpandet.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams params_mExpandet = new LinearLayout.LayoutParams(310, WRAP_CONTENT);
+        LinearLayout.LayoutParams params_mExpandet = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         mExpandet.setLayoutParams(params_mExpandet);
         ScrollView scrollView = new ScrollView(getBaseContext());
         scrollView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
@@ -177,7 +177,7 @@ public class FloatingModMenuService extends Service {
         mButtonPanel.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
         mTitlle.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
         TextView title_text = new TextView(getBaseContext());
-        title_text.setText("Mod Menu v1.0.0");
+        title_text.setText("Mod Menu v1.0.1");
         title_text.setTextColor(Color.RED);
         title_text.setTypeface(Typeface.DEFAULT_BOLD);
         title_text.setTextSize(16);
@@ -221,10 +221,10 @@ public class FloatingModMenuService extends Service {
         background_menu.setTypeface(Typeface.DEFAULT_BOLD);
         background_menu.setTextColor(Color.WHITE);
         background_menu.setPadding(10, 10, 10, 10);
-        alfa_text = new TextView(getBaseContext());
-        alfa_text.setText("Alfa:" + alfa);
-        alfa_text.setTextColor(Color.WHITE);
-        alfa_text.setPadding(10, 10, 10, 10);
+        alpha_text = new TextView(getBaseContext());
+        alpha_text.setText("Alpha:" + alpha);
+        alpha_text.setTextColor(Color.WHITE);
+        alpha_text.setPadding(10, 10, 10, 10);
         red_text = new TextView(getBaseContext());
         red_text.setText("Red:" + red);
         red_text.setTextColor(Color.WHITE);
@@ -240,9 +240,9 @@ public class FloatingModMenuService extends Service {
         seek_icon = new SeekBar(getBaseContext());
         seek_icon.setMax(10);
         seek_icon.setProgress(mProgress_icon);
-        seek_alfa = new SeekBar(getBaseContext());
-        seek_alfa.setMax(255);
-        seek_alfa.setProgress(alfa);
+        seek_alpha = new SeekBar(getBaseContext());
+        seek_alpha.setMax(255);
+        seek_alpha.setProgress(alpha);
         seek_red = new SeekBar(getBaseContext());
         seek_red.setProgress(red);
         seek_red.setMax(255);
@@ -266,8 +266,8 @@ public class FloatingModMenuService extends Service {
         settings_scroll_linear.addView(current_opacity_icon);
         settings_scroll_linear.addView(seek_icon);
         settings_scroll_linear.addView(background_menu);
-        settings_scroll_linear.addView(alfa_text);
-        settings_scroll_linear.addView(seek_alfa);
+        settings_scroll_linear.addView(alpha_text);
+        settings_scroll_linear.addView(seek_alpha);
         settings_scroll_linear.addView(red_text);
         settings_scroll_linear.addView(seek_red);
         settings_scroll_linear.addView(green_text);
@@ -399,7 +399,7 @@ public class FloatingModMenuService extends Service {
             @Override
             public void onClick(View view) {
                 stopSelf();
-                Toast.makeText(getBaseContext(), "Close", Toast.LENGTH_LONG).show();
+               // Toast.makeText(getBaseContext(), "Close", Toast.LENGTH_LONG).show();
             }
         });
         closeimage_title.setOnClickListener(new ImageView.OnClickListener() {
@@ -452,11 +452,11 @@ public class FloatingModMenuService extends Service {
 
             }
         });
-        seek_alfa.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seek_alpha.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 changeColor();
-                editor.putInt("current_progress_alfa", progress).apply();
+                editor.putInt("current_progress_alpha", progress).apply();
             }
 
             @Override
@@ -526,7 +526,7 @@ public class FloatingModMenuService extends Service {
             public void onClick(View view) {
                 collapsedView.setVisibility(View.VISIBLE);
                 expandedView.setVisibility(View.GONE);
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));//your link to profile, site etc.
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
 
@@ -560,13 +560,13 @@ public class FloatingModMenuService extends Service {
 
     private void changeColor() {
 
-        alfa = seek_alfa.getProgress();
+        alpha = seek_alpha.getProgress();
         red = seek_red.getProgress();
         green = seek_green.getProgress();
         blue = seek_blue.getProgress();
-        background_color = Color.argb(alfa, red, green, blue);
-        //background_color = ("#"+Integer.toHexString(alfa)+Integer.toHexString(red)+Integer.toHexString(green)+Integer.toHexString(blue));
-        alfa_text.setText("Alfa:" + alfa);
+        background_color = Color.argb(alpha, red, green, blue);
+        //background_color = ("#"+Integer.toHexString(alpha)+Integer.toHexString(red)+Integer.toHexString(green)+Integer.toHexString(blue));
+        alpha_text.setText("Alpha:" + alpha);
         red_text.setText("Red:" + red);
         green_text.setText("Green:" + green);
         blue_text.setText("Blue:" + blue);
@@ -586,7 +586,7 @@ public class FloatingModMenuService extends Service {
                     Toast.makeText(getBaseContext(), "God Mode is activated", Toast.LENGTH_SHORT).show();
                 } else {
                     godmode_off();
-                    // FloatingViewService.write(0xff, "01 00 A0 E3 1E FF 2F E1");//restore data
+
                     Toast.makeText(getBaseContext(), "God Mode is disabled", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -605,7 +605,7 @@ public class FloatingModMenuService extends Service {
     }
 
     //метод для быстрого добавления свичей в меню патчей
-    
+
     private void addSwitch(String name, final SW listner) {
         Switch sw = new Switch(this);
         sw.setText(name);
@@ -625,7 +625,7 @@ public class FloatingModMenuService extends Service {
         editor = preferences.edit();
         background_color = preferences.getInt("background_color", -14606047);
         curent_icon = preferences.getFloat("current_background", 1);
-        alfa = preferences.getInt("current_progress_alfa", 255);
+        alpha = preferences.getInt("current_progress_alpha", 255);
         red = preferences.getInt("current_progress_red", 33);
         green = preferences.getInt("current_progress_green", 33);
         blue = preferences.getInt("current_progress_blue", 33);
@@ -637,15 +637,33 @@ public class FloatingModMenuService extends Service {
     }
 
     private float getConvertetValue(int intVal) {
-        float value = 0.0f;
+        float value;
         value = intVal * 0.1f;
         return value;
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return Service.START_NOT_STICKY;
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        stopSelf();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        super.onTaskRemoved(rootIntent);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mFloatingView != null) mWindowManager.removeView(mFloatingView);
+        if (mFloatingView != null)
+            mWindowManager.removeView(mFloatingView);
+        Toast.makeText(getBaseContext(), "Mod Menu Service is stopped", Toast.LENGTH_SHORT).show();
     }
 
     private interface SW {
