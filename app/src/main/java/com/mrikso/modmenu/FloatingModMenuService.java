@@ -16,6 +16,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -23,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +49,7 @@ public class FloatingModMenuService extends Service {
     private SharedPreferences.Editor editor;
     private int mProgress_icon, background_color, alpha, red, green, blue;
     private TextView alpha_text, red_text, green_text, blue_text, current_opacity_icon;
-    //private Spinner spinner;
+    private Spinner spinner;
 
     //инициализируем методы из нативной библиотеки
    // private native String toastFromJNI();
@@ -107,7 +110,7 @@ public class FloatingModMenuService extends Service {
             //
             closeimage = new ImageView(getBaseContext());
             closeimage.setLayoutParams(new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-            ((ViewGroup.MarginLayoutParams) startimage.getLayoutParams()).topMargin = 15;
+            ((ViewGroup.MarginLayoutParams) startimage.getLayoutParams()).topMargin = dp2px(10);
             //задаём размер иконки закрыть
             int dimensionClose = 20;//20dp
             int dimensionInDpClose = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimensionClose, getResources().getDisplayMetrics());
@@ -118,7 +121,7 @@ public class FloatingModMenuService extends Service {
             Drawable ic_close = Drawable.createFromStream(inputStream_close, null);
             closeimage.setImageDrawable(ic_close);
             closeimage.setAlpha(curent_icon);
-            ((ViewGroup.MarginLayoutParams) closeimage.getLayoutParams()).leftMargin = 65;
+            ((ViewGroup.MarginLayoutParams) closeimage.getLayoutParams()).leftMargin = dp2px(35);
             //
             //иконка закрыть для развернутого меню
             closeimage_title = new ImageView(getBaseContext());
@@ -138,7 +141,7 @@ public class FloatingModMenuService extends Service {
             closeimage_settings.setLayoutParams(pp);
             closeimage_settings.requestLayout();
             closeimage_settings.setImageDrawable(ic_close);
-            ((ViewGroup.MarginLayoutParams) closeimage_settings.getLayoutParams()).leftMargin = 180;
+            ((ViewGroup.MarginLayoutParams) closeimage_settings.getLayoutParams()).leftMargin = dp2px(95);
             //
             LinearLayout.LayoutParams set = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             set.gravity = Gravity.RIGHT;
@@ -160,7 +163,7 @@ public class FloatingModMenuService extends Service {
             InputStream inputStream_openSite = assetManager.open("ic_open.png");
             Drawable ic_openSite = Drawable.createFromStream(inputStream_openSite, null);
             openSite.setImageDrawable(ic_openSite);
-            ((ViewGroup.MarginLayoutParams) openSite.getLayoutParams()).leftMargin = 180;
+            ((ViewGroup.MarginLayoutParams) openSite.getLayoutParams()).leftMargin = dp2px(95);
         } catch (IOException ex) {
             Toast.makeText(getBaseContext(), ex.toString(), Toast.LENGTH_LONG).show();
         }
@@ -191,7 +194,7 @@ public class FloatingModMenuService extends Service {
         settings.setVisibility(View.GONE);//mExpandet скрытый
         settings.setBackgroundColor(background_color);
         settings.setOrientation(LinearLayout.VERTICAL);
-        settings.setLayoutParams(new LinearLayout.LayoutParams(350, WRAP_CONTENT));
+        settings.setLayoutParams(new LinearLayout.LayoutParams(dp2px(175), WRAP_CONTENT));
         TextView settings_title_text = new TextView(getBaseContext());
         settings_title_text.setText("Settings");
         settings_title_text.setTextColor(Color.RED);
@@ -203,7 +206,7 @@ public class FloatingModMenuService extends Service {
         settingstitle_Layout.gravity = Gravity.CENTER;
         settings_title_text.setLayoutParams(settingstitle_Layout);
         ScrollView settings_scroll = new ScrollView(getBaseContext());
-        settings_scroll.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, 300));
+        settings_scroll.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, dp2px(160)));
         LinearLayout settings_scroll_linear = new LinearLayout(getBaseContext());
         settings_scroll_linear.setLayoutParams(new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
         settings_scroll_linear.setOrientation(LinearLayout.VERTICAL);
@@ -253,10 +256,11 @@ public class FloatingModMenuService extends Service {
         seek_blue.setProgress(blue);
         seek_blue.setMax(255);
         /*Спиннер на всякий случай*/
-       /* String[] items = {"Item 1", "Item 2", "Item 3"};
+/*        String[] items = {"Item 1", "Item 2", "Item 3"};
         spinner = new Spinner(getBaseContext());
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        spinner.setAdapter(arrayAdapter);*/
+        spinner.setAdapter(arrayAdapter);
+        spinner.setBackgroundColor(background_color);*/
         settingsTitle.addView(settings_title_text);
         settingsTitle.addView(closeimage_settings);
         settings.addView(settingsTitle);
@@ -407,7 +411,7 @@ public class FloatingModMenuService extends Service {
             public void onClick(View view) {
                 collapsedView.setVisibility(View.VISIBLE);
                 expandedView.setVisibility(View.GONE);
-                Toast.makeText(getBaseContext(), "Menu Hided", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Menu Hided", Toast.LENGTH_SHORT).show();
             }
         });
         mSettinsMenu.setOnClickListener(new ImageView.OnClickListener() {
@@ -535,9 +539,10 @@ public class FloatingModMenuService extends Service {
             }
         });
         /*Спиннер на всякий случай*/
-       /* spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+       /*spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) view).setTextColor(Color.WHITE);
                 switch (position) {
                     case 0:
                         Toast.makeText(getBaseContext(), "Test 1", Toast.LENGTH_LONG).show();
@@ -556,6 +561,7 @@ public class FloatingModMenuService extends Service {
 
             }
         });*/
+
     }
 
     private void changeColor() {
@@ -586,10 +592,7 @@ public class FloatingModMenuService extends Service {
                     Toast.makeText(getBaseContext(), "God Mode is activated", Toast.LENGTH_SHORT).show();
                 } else {
                     godmode_off();
-<<<<<<< HEAD
 
-=======
->>>>>>> c602436bb4c67b462e437f72728eee882fca3281
                     Toast.makeText(getBaseContext(), "God Mode is disabled", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -603,16 +606,16 @@ public class FloatingModMenuService extends Service {
                 }
             }
         });
-
+        /*patches.addView(spinner);*/
         patches.addView(mButtonPanel);
     }
 
     //метод для быстрого добавления свичей в меню патчей
-
     private void addSwitch(String name, final SW listner) {
         Switch sw = new Switch(this);
         sw.setText(name);
         sw.setTextColor(Color.WHITE);
+        //sw.setTextSize(dipToPixels());
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 listner.OnWrite(isChecked);
@@ -644,6 +647,10 @@ public class FloatingModMenuService extends Service {
         return value;
     }
 
+    private int dp2px(int dp){
+        final float scale = getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
+    }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return Service.START_NOT_STICKY;
