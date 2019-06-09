@@ -586,7 +586,10 @@ public class FloatingModMenuService extends Service {
                     Toast.makeText(getBaseContext(), "God Mode is activated", Toast.LENGTH_SHORT).show();
                 } else {
                     godmode_off();
+<<<<<<< HEAD
 
+=======
+>>>>>>> c602436bb4c67b462e437f72728eee882fca3281
                     Toast.makeText(getBaseContext(), "God Mode is disabled", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -610,7 +613,6 @@ public class FloatingModMenuService extends Service {
         Switch sw = new Switch(this);
         sw.setText(name);
         sw.setTextColor(Color.WHITE);
-        //sw.setTextSize(dipToPixels());
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 listner.OnWrite(isChecked);
