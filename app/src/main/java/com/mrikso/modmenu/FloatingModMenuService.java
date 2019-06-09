@@ -586,10 +586,10 @@ public class FloatingModMenuService extends Service {
                     Toast.makeText(getBaseContext(), "God Mode is activated", Toast.LENGTH_SHORT).show();
                 } else {
                     godmode_off();
-<<<<<<< HEAD
 
-=======
->>>>>>> c602436bb4c67b462e437f72728eee882fca3281
+
+
+
                     Toast.makeText(getBaseContext(), "God Mode is disabled", Toast.LENGTH_SHORT).show();
                 }
             }
